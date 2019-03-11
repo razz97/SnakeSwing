@@ -1,10 +1,10 @@
 package snaketucom;
 
-import ui.JFrameCustom;
+import controller.AppController;
 
 public class SnakeTucom {
 
 	public static void main(String[] args) {
-		new JFrameCustom();
+		AppController.getInstance().bootstrap();
 	}
 }

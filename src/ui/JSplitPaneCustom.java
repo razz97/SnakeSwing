@@ -11,13 +11,12 @@ public class JSplitPaneCustom extends JSplitPane {
 	
 	private static final long serialVersionUID = 1L;
 
-	public JSplitPaneCustom() {
+	public JSplitPaneCustom(JPanel login) {
 		
 		setDividerLocation(200);
 		setEnabled(false);
 		
-		JPanelLogin panel_1 = new JPanelLogin();
-		setRightComponent(panel_1);
+		setRightComponent(login);
 		
 		JPanel panel = new JPanelConsole();
 		setLeftComponent(panel);
