@@ -1,7 +1,11 @@
 package controller;
 
+import java.util.List;
+
 import javax.swing.JPanel;
 
+import model.Score;
+import model.User;
 import persistance.Dao;
 import ui.JFrameCustom;
 import ui.JSplitPaneCustom;
@@ -15,12 +19,11 @@ public class AppController {
 	private static AppController instance;
 	
 	private JSplitPaneCustom splitPane;
-	
 	private final JPanelLogin login = new JPanelLogin();
 	private final JPanelMain main = new JPanelMain();
 	private final JPanelGame game = new JPanelGame();
 	private final JPanelScore score = new JPanelScore();
-	
+	private User user;
 	
 	public void bootstrap() {
 		splitPane = new JSplitPaneCustom(login);
@@ -35,13 +38,19 @@ public class AppController {
 	
 	private AppController() {}
 	
-	public void auth(String username, char[] password) {
-		if (Dao.getInstance().auth(username, password)) {
+	public void auth(String username, String password) {
+		User user = new User(username, password);
+		if (Dao.getInstance().auth(user)) {
 			LogController.getInstance().log("Logged in successfully");
+			this.user = user;
 			setPanel(main);
 		} else {
 			LogController.getInstance().log("Invalid credentials");
 		}
+	}
+	
+	public List<Score> getAllScores() {
+		return Dao.getInstance().getScores();
 	}
 	
 	private void setPanel(JPanel panel) {

@@ -39,7 +39,7 @@ public class JPanelLogin extends JPanel {
 		btnDone.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AppController.getInstance().auth(userField.getText(), pswdField.getPassword());
+				AppController.getInstance().auth(userField.getText(), new String(pswdField.getPassword()));
 			}
 		});
 		add(btnDone);
