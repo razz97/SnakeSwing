@@ -1,8 +1,10 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Score {
+public class Score implements Comparable<Score>{
 
 	private String user;
 	private Date date;
@@ -55,6 +57,11 @@ public class Score {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Score other) {
+		return points - other.points;
 	}
 	
 	

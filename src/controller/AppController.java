@@ -2,7 +2,11 @@ package controller;
 
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.jdom2.Element;
 
 import model.Score;
 import model.User;
@@ -18,6 +22,7 @@ public class AppController {
 
 	private static AppController instance;
 	
+	private JFrameCustom frame;
 	private JSplitPaneCustom splitPane;
 	private final JPanelLogin login = new JPanelLogin();
 	private final JPanelMain main = new JPanelMain();
@@ -27,7 +32,7 @@ public class AppController {
 	
 	public void bootstrap() {
 		splitPane = new JSplitPaneCustom(login);
-		new JFrameCustom(splitPane);
+		frame = new JFrameCustom(splitPane);
 	}
 	
 	public static AppController getInstance() {
@@ -49,9 +54,16 @@ public class AppController {
 		}
 	}
 	
-	public List<Score> getAllScores() {
-		return Dao.getInstance().getScores();
+	public void fatalError() {
+		JOptionPane.showMessageDialog(frame, "XML is corrupted.", "Fatal error", JOptionPane.ERROR_MESSAGE);
+		System.exit(0);
 	}
+	
+	public List<Score> getUserScores() {
+		return Dao.getInstance().getScores(user);
+	}
+	
+	
 	
 	private void setPanel(JPanel panel) {
 		splitPane.setRightComponent(panel);

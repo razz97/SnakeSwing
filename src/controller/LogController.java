@@ -32,5 +32,7 @@ public class LogController {
 	public void log(String message) {
 		listeners.forEach(l -> l.onNewLogMessage(message));
 	}
+	
+	
 
 }

@@ -1,6 +1,7 @@
 package ui.panels;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -33,7 +34,11 @@ public class JPanelMain extends JPanel {
 		};
 		
 		table = new JTable(data,columnNames);
-		table.setBounds(114, 53, 200, 100);
-		add(table);
+		table.setEnabled(false);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(114,53,200,100);
+		scrollPane.setViewportView(table);
+		add(scrollPane);
 	}
 }
