@@ -8,6 +8,7 @@ import javax.swing.JTextArea;
 
 import controller.AppController;
 import controller.LogController;
+import javax.swing.JScrollPane;
 
 public class JPanelConsole extends JPanel {
 	
@@ -16,10 +17,14 @@ public class JPanelConsole extends JPanel {
 	public JPanelConsole() {
 		setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 20, 200, 450);
+		add(scrollPane);
+		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setBounds(0, 20, 200, 480);
-		add(textArea);
+		textArea.setBounds(0, 0, 200, 450);
+		scrollPane.setViewportView(textArea);
 		
 		LogController.getInstance().addListener(msg -> textArea.append(msg + "\n"));
 		

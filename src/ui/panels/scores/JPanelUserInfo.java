@@ -24,7 +24,7 @@ public class JPanelUserInfo extends JPanel {
 	private JLabel lblDate_1;
 	
 	
-	public JPanelUserInfo(User user) {
+	public JPanelUserInfo() {
 		setLayout(null);
 		
 		lblUser = new JLabel("New Label");
@@ -57,10 +57,7 @@ public class JPanelUserInfo extends JPanel {
 		
 		lblDate_1 = new JLabel("Date:");
 		lblDate_1.setBounds(10, 86, 46, 14);
-		add(lblDate_1);
-		
-		setUser(user);
-		
+		add(lblDate_1);		
 	}
 	
 	public void setUser(User user) {
@@ -70,5 +67,12 @@ public class JPanelUserInfo extends JPanel {
 		lblGames.setText(String.valueOf(scores.size()));
 		lblBest.setText(max == null ? "0" : String.valueOf(max.getPoints()));
 		lblDate.setText(max == null ? "-" : AppController.getInstance().formatter.format(max.getDate()));		
+	}
+
+	public void setDefaultInfo() {
+		lblUser.setText("-");
+		lblGames.setText("-");
+		lblBest.setText("-");
+		lblDate.setText("-");
 	}
 }

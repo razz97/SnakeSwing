@@ -76,7 +76,7 @@ public class Dao {
 	
 	private <T> T execute(SupplierExceptionThrower<T> exec) {
 		try { return exec.get(); } 
-		catch (Exception e) { AppController.getInstance().fatalError(); }
+		catch (Exception e) { e.printStackTrace(); AppController.getInstance().fatalError(); }
 		return null;
 	}
 

@@ -36,6 +36,7 @@ public class JPanelMain extends JPanel {
 		
 		String[] columnNames = {"Date","Score"};
 		JTable table = new JTable(getTableData(), columnNames);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.setEnabled(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
