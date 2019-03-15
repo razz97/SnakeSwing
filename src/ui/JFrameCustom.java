@@ -12,15 +12,22 @@ public class JFrameCustom extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public JFrameCustom(JSplitPaneCustom splitPane) {
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize(800, 500);
-		this.setIconImage(new ImageIcon("resources" + File.separator + "snake.png").getImage());
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		this.setTitle("SnakeTucom");
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.add(splitPane);
+		setSizeAndPosition();
+		setIconImage(new ImageIcon("resources" + File.separator + "snake.png").getImage());
+		setTitle("SnakeTucom");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		add(splitPane);		
 		setResizable(false);
-		this.setVisible(true);
+		setVisible(true);
+	}
+	
+	private void setSizeAndPosition() {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = 800;
+		int height = 500;
+		int x = dim.width/2 - width/2;
+		int y = dim.height/2 - height/2;
+		setBounds(x, y, width, height);
 	}
 	
 		

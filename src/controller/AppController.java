@@ -1,12 +1,11 @@
 package controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import org.jdom2.Element;
 
 import model.Score;
 import model.User;
@@ -22,16 +21,18 @@ public class AppController {
 
 	private static AppController instance;
 	
+	public final DateFormat formatter;
+	
 	private JFrameCustom frame;
 	private JSplitPaneCustom splitPane;
-	private final JPanelLogin login = new JPanelLogin();
-	private final JPanelMain main = new JPanelMain();
-	private final JPanelGame game = new JPanelGame();
-	private final JPanelScore score = new JPanelScore();
+	
+	private final Dao dao;
+	private final LogController logger;
+	
 	private User user;
 	
 	public void bootstrap() {
-		splitPane = new JSplitPaneCustom(login);
+		splitPane = new JSplitPaneCustom();
 		frame = new JFrameCustom(splitPane);
 	}
 	
@@ -41,34 +42,74 @@ public class AppController {
 		return instance;
 	}
 	
-	private AppController() {}
+	private AppController() {
+		formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		dao = Dao.getInstance();
+		logger = LogController.getInstance();
+	}
 	
 	public void auth(String username, String password) {
 		User user = new User(username, password);
-		if (Dao.getInstance().auth(user)) {
-			LogController.getInstance().log("Logged in successfully");
+		if (dao.auth(user)) {
+			logger.log("Logged in successfully.");
 			this.user = user;
-			setPanel(main);
+			setPanel(new JPanelMain());
 		} else {
-			LogController.getInstance().log("Invalid credentials");
+			logger.log("Invalid credentials.");
 		}
 	}
 	
+	public List<User> getUsers() {
+		return dao.getUsers();
+	}
+	
 	public void fatalError() {
-		JOptionPane.showMessageDialog(frame, "XML is corrupted.", "Fatal error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(
+				frame, 
+				"XML is corrupted.", 
+				"Fatal error.", 
+				JOptionPane.ERROR_MESSAGE
+		);
 		System.exit(0);
 	}
 	
 	public List<Score> getUserScores() {
-		return Dao.getInstance().getScores(user);
+		return getScores(user);
 	}
 	
-	
+	public List<Score> getScores(User user) {
+		return dao.getScores(user);
+	}
 	
 	private void setPanel(JPanel panel) {
 		splitPane.setRightComponent(panel);
 		splitPane.setDividerLocation(200);
 	}
+
+	public void saveAndExit() {
+		dao.commit();
+		System.exit(0);
+	}
+
+	public void showScores() {
+		logger.log("Scores panel shown.");
+		setPanel(new JPanelScore());
+	}
+
+	public void showHome() {
+		logger.log("Home panel shown.");
+		setPanel(new JPanelMain());
+	}
 	
+	public void logout() {
+		user = null;
+		logger.log("Logged off.");
+		setPanel(new JPanelLogin());
+	}
+	
+	public void showGame() {
+		logger.log("Game panel shown.");
+		setPanel(new JPanelGame());
+	}
 	
 }
