@@ -62,7 +62,7 @@ public class JPanelUserInfo extends JPanel {
 	
 	public void setUser(User user) {
 		List<Score> scores = AppController.getInstance().getScores(user);
-		Score max = scores.stream().max(Comparator.naturalOrder()).orElse(null);
+		Score max = AppController.getInstance().getMaxScore(scores);
 		lblUser.setText(user.getName());
 		lblGames.setText(String.valueOf(scores.size()));
 		lblBest.setText(max == null ? "0" : String.valueOf(max.getPoints()));

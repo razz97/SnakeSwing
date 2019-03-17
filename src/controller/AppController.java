@@ -2,6 +2,7 @@ package controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -74,11 +75,19 @@ public class AppController {
 	}
 	
 	public List<Score> getUserScores() {
-		return getScores(user);
+		return dao.getScores(user);
 	}
 	
 	public List<Score> getScores(User user) {
 		return dao.getScores(user);
+	}
+	
+	public Score getMaxScore(List<Score> scores) {
+		return  scores.stream().max(Comparator.naturalOrder()).orElse(null);
+	}
+	
+	public Score getMaxScore(User user) {
+		return  getScores(user).stream().max(Comparator.naturalOrder()).orElse(null);
 	}
 	
 	private void setPanel(JPanel panel) {
@@ -110,6 +119,10 @@ public class AppController {
 	public void showGame() {
 		logger.log("Game panel shown.");
 		setPanel(new JPanelGame());
+	}
+
+	public Score getBestScore() {
+		return dao.getBestScore();
 	}
 	
 }

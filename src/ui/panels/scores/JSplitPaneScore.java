@@ -4,10 +4,8 @@ import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 
 import controller.AppController;
-import model.Score;
 import model.User;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +22,7 @@ public class JSplitPaneScore extends JSplitPane {
 	private List<User> users;
 	private JList<User> list;
 	
-	public JSplitPaneScore() {
-		
+	public JSplitPaneScore() {		
 		setDividerLocation(200);
 		JPanel panel = new JPanel();
 		setLeftComponent(panel);
@@ -56,13 +53,10 @@ public class JSplitPaneScore extends JSplitPane {
 	}
 	
 	private void updateModel(List<User> newList) {
-		if (newList.isEmpty()) {
-			//list.setModel(new DefaultListModel<User>());
-			model.removeAllElements();
+		model.removeAllElements();
+		if (newList.isEmpty())
 			panelUser.setDefaultInfo();
-		} else {
-			
-			model.removeAllElements();
+		else {
 			newList.forEach(u -> model.addElement(u));
 			list.setSelectedIndex(0);
 		}

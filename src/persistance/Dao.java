@@ -83,4 +83,16 @@ public class Dao {
 	public void commit() {
 		// TODO: Implement
 	}
+
+	public Score getBestScore() {
+		return execute(() -> {
+			Score score = new Score(null, null, -1);
+			for (Element elem: getElementList(scoresFile)) {
+				Score tmp = parseScore(elem);
+				if (tmp.compareTo(score) > 0)
+					score = tmp;
+			}
+			return score;
+		});
+	}
 }

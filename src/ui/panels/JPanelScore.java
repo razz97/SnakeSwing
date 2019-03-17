@@ -3,6 +3,8 @@ package ui.panels;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import ui.panels.scores.JPanelBestScore;
+import ui.panels.scores.JPanelFilterScore;
 import ui.panels.scores.JSplitPaneScore;
 
 import javax.swing.JSplitPane;
@@ -41,8 +43,8 @@ public class JPanelScore extends JPanel {
 		btnNewButton.addActionListener(e -> splitPane.filter(textField.getText()));
 		panel.add(btnNewButton);
 		
-		tabbedPane.addTab("Best user score", null, new JPanel(), null);
-		tabbedPane.addTab("Score filter", null, new JPanel(), null);
+		tabbedPane.addTab("Best user score", null, new JPanelBestScore(), null);
+		tabbedPane.addTab("Score filter", null, new JPanelFilterScore(), null);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setBounds(10, 11, 89, 23);
