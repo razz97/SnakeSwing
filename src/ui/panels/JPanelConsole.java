@@ -24,6 +24,8 @@ public class JPanelConsole extends JPanel {
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setBounds(0, 0, 200, 450);
+		scrollPane.setFocusable(false);
+		textArea.setFocusable(false);
 		scrollPane.setViewportView(textArea);
 		
 		LogController.getInstance().addListener(msg -> textArea.append(msg + "\n"));

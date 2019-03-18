@@ -12,7 +12,7 @@ public class JSplitPaneCustom extends JSplitPane {
 	public JSplitPaneCustom() {
 		setDividerLocation(200);
 		setEnabled(false);
-		setRightComponent(new JPanelLogin());
 		setLeftComponent(new JPanelConsole());
+		setRightComponent(new JPanelLogin());
 	}
 }

@@ -7,7 +7,6 @@ import ui.panels.scores.JPanelBestScore;
 import ui.panels.scores.JPanelFilterScore;
 import ui.panels.scores.JSplitPaneScore;
 
-import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 

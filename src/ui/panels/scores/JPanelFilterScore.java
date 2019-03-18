@@ -8,12 +8,8 @@ import controller.AppController;
 import model.Score;
 import model.User;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;

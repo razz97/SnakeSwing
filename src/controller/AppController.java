@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import model.Score;
 import model.User;
 import persistance.Dao;
+import tmp.Snake;
 import ui.JFrameCustom;
 import ui.JSplitPaneCustom;
-import ui.panels.JPanelGame;
 import ui.panels.JPanelLogin;
 import ui.panels.JPanelMain;
 import ui.panels.JPanelScore;
@@ -118,7 +118,11 @@ public class AppController {
 	
 	public void showGame() {
 		logger.log("Game panel shown.");
-		setPanel(new JPanelGame());
+		Snake snake = new Snake();
+		setPanel(snake);
+		snake.requestFocusInWindow();
+		
+		
 	}
 
 	public Score getBestScore() {

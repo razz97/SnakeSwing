@@ -6,7 +6,6 @@ import controller.AppController;
 import model.Score;
 import model.User;
 
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JLabel;
