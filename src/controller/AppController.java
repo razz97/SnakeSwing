@@ -3,6 +3,7 @@ package controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -11,12 +12,12 @@ import javax.swing.JPanel;
 import model.Score;
 import model.User;
 import persistance.Dao;
-import tmp.Snake;
 import ui.JFrameCustom;
 import ui.JSplitPaneCustom;
 import ui.panels.JPanelLogin;
 import ui.panels.JPanelMain;
 import ui.panels.JPanelScore;
+import ui.panels.Snake;
 
 public class AppController {
 
@@ -106,27 +107,46 @@ public class AppController {
 	}
 
 	public void showHome() {
-		logger.log("Home panel shown.");
-		setPanel(new JPanelMain());
+		if (user != null) {
+			logger.log("Home panel shown.");
+			setPanel(new JPanelMain());
+		} else {
+			logger.log("You must log in first.");
+		}
+
 	}
 	
 	public void logout() {
-		user = null;
-		logger.log("Logged off.");
-		setPanel(new JPanelLogin());
+		if (user != null) {
+			user = null;
+			dao.commit();
+			logger.log("Logged off.");
+			setPanel(new JPanelLogin());
+		} else {
+			logger.log("");
+		}
+
 	}
 	
 	public void showGame() {
-		logger.log("Game panel shown.");
-		Snake snake = new Snake();
-		setPanel(snake);
-		snake.requestFocusInWindow();
-		
-		
+		if (user != null) {
+			logger.log("Game panel shown.");
+			Snake snake = new Snake();
+			setPanel(snake);
+			snake.requestFocusInWindow();
+		} else {
+			logger.log("You must log in first.");
+		}
+
 	}
 
 	public Score getBestScore() {
 		return dao.getBestScore();
+	}
+
+	public void addScore(int points) {
+		logger.log("Added score.");
+		dao.addScore(new Score(user.getName(),new Date(),points));
 	}
 	
 }

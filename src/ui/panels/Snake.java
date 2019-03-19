@@ -1,4 +1,4 @@
-package tmp;
+package ui.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,22 +12,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import controller.AppController;
 
 public class Snake extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final int B_WIDTH = 600;
-    private final int B_HEIGHT = 500;
+	private final int B_WIDTH = 580;
+    private final int B_HEIGHT = 450;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 3000;
-    private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    private final int x[] = new int[ALL_DOTS];
-    private final int y[] = new int[ALL_DOTS];
+    private final int x[] = new int[5000];
+    private final int y[] = new int[5000];
 
     private int dots;
     private int apple_x;
@@ -44,8 +45,9 @@ public class Snake extends JPanel implements ActionListener {
     private Image apple;
     private Image head;
 
+    private boolean shownRetryBtn = false;
+    
     public Snake() {
-        
         initBoard();
     }
     
@@ -95,9 +97,8 @@ public class Snake extends JPanel implements ActionListener {
     }
     
     private void doDrawing(Graphics g) {
-        
+    	drawScore(g);
         if (inGame) {
-
             g.drawImage(apple, apple_x, apple_y, this);
 
             for (int z = 0; z < dots; z++) {
@@ -107,7 +108,7 @@ public class Snake extends JPanel implements ActionListener {
                     g.drawImage(ball, x[z], y[z], this);
                 }
             }
-
+            
             Toolkit.getDefaultToolkit().sync();
 
         } else {
@@ -116,15 +117,39 @@ public class Snake extends JPanel implements ActionListener {
         }        
     }
 
+    private void drawScore(Graphics g) {
+    	g.fillRect(0, B_HEIGHT, B_WIDTH + 10, 30);
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        g.setColor(Color.white);
+        g.setFont(small);
+        FontMetrics metr = getFontMetrics(small);
+        String score = "Score: " + dots * 100;
+    	g.drawString(score, (B_WIDTH - metr.stringWidth(score)) / 2, B_HEIGHT + 15);
+    }
+    
     private void gameOver(Graphics g) {
         
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
-
+        
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+    
+        if (!shownRetryBtn) {
+        	shownRetryBtn = true;
+        	AppController.getInstance().addScore(dots * 100);
+        	JButton btnAgain = new JButton("Again");
+        	btnAgain.addActionListener(e -> AppController.getInstance().showGame());
+        	btnAgain.setBounds(305, 250, 100, 20);
+        	add(btnAgain);
+        	JButton btnHome = new JButton("Home");
+        	btnHome.addActionListener(e -> AppController.getInstance().showHome());
+        	btnHome.setBounds(175, 250, 100, 20);
+        	add(btnHome);
+        }
+        
     }
 
     private void checkApple() {
@@ -192,10 +217,10 @@ public class Snake extends JPanel implements ActionListener {
 
     private void locateApple() {
 
-        int r = (int) (Math.random() * RAND_POS);
+        int r = (int) (Math.random() * (B_WIDTH / DOT_SIZE - 1));
         apple_x = ((r * DOT_SIZE));
 
-        r = (int) (Math.random() * RAND_POS);
+        r = (int) (Math.random() * (B_HEIGHT / DOT_SIZE - 1));
         apple_y = ((r * DOT_SIZE));
     }
 

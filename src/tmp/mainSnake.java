@@ -3,6 +3,8 @@ package tmp;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
+import ui.panels.Snake;
+
 public class mainSnake extends JFrame {
 
 	private static final long serialVersionUID = 1L;

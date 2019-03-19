@@ -24,7 +24,7 @@ public class JPanelFilterScore extends JPanel {
 	public JPanelFilterScore() {
 		setLayout(null);
 		
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 5000));
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 500));
 		spinner.setBounds(37, 33, 228, 20);
 		add(spinner);
 		

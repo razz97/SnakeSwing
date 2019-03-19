@@ -1,12 +1,17 @@
 package persistance;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import controller.AppController;
 import model.Score;
@@ -23,6 +28,8 @@ public class Dao {
 	private File usersFile = new File("resources" + File.separator + "passwords.xml");
 	private File scoresFile = new File("resources" + File.separator + "scores.xml");
 	private SAXBuilder builder = new SAXBuilder();
+	
+	private List<Score> addedScores = new ArrayList<>();
 		
 	public static Dao getInstance() {
 		if (instance == null)
@@ -44,10 +51,12 @@ public class Dao {
 	
 	public List<Score> getScores(User user) {
 		return execute(() ->  {
-			return getElementList(scoresFile).stream()
+			List<Score> scores = getElementList(scoresFile).stream()
 					.filter(e -> user.getName().equals(e.getAttributeValue("name")))
 					.map(e -> parseScore(e))
 					.collect(Collectors.toList());
+			scores.addAll(addedScores);
+			return scores;
 		});
 	}
 	
@@ -74,6 +83,18 @@ public class Dao {
 		return new User(elem.getAttributeValue("name"), elem.getAttributeValue("psw"));
 	}
 	
+	private Element serializeScore(Score score) {
+		Element root = new Element("score");
+		root.setAttribute("name", score.getUser());
+		Element time = new Element("time");
+		time.setText(AppController.getInstance().formatter.format(score.getDate()));
+		Element points = new Element("points");
+		points.setText(String.valueOf(score.getPoints()));
+		root.addContent(time);
+		root.addContent(points);
+		return root;
+	}
+	
 	private <T> T execute(SupplierExceptionThrower<T> exec) {
 		try { return exec.get(); } 
 		catch (Exception e) { e.printStackTrace(); AppController.getInstance().fatalError(); }
@@ -81,7 +102,19 @@ public class Dao {
 	}
 
 	public void commit() {
-		// TODO: Implement
+		execute(() -> {
+			List<Element> newElements = addedScores.stream().map(s -> serializeScore(s)).collect(Collectors.toList());
+			Document doc = builder.build(scoresFile);
+			doc.getRootElement().addContent(newElements);
+	        FileWriter writer = new FileWriter(scoresFile);
+	        XMLOutputter outputter = new XMLOutputter();
+	        outputter.setFormat(Format.getPrettyFormat());
+	        outputter.output(doc, writer);
+	        writer.close(); 
+	        addedScores.clear();
+			return null;
+		});
+
 	}
 
 	public Score getBestScore() {
@@ -94,5 +127,9 @@ public class Dao {
 			}
 			return score;
 		});
+	}
+
+	public void addScore(Score score) {
+		addedScores.add(score);
 	}
 }
