@@ -39,6 +39,9 @@ public class JPanelRegister extends JPanel {
 					String.valueOf(repeat.getPassword()));
 		});
 		add(btnSignIn);
+		repeat.addActionListener(e -> btnSignIn.doClick());
+		password.addActionListener(e -> btnSignIn.doClick());
+		username.addActionListener(e -> btnSignIn.doClick());
 	}
 	
 	private void setupLabels() {

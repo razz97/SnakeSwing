@@ -76,4 +76,24 @@
     <time>20/03/19 16:02:52</time>
     <points>300</points>
   </score>
+  <score name="alexx">
+    <time>20/03/19 22:36:06</time>
+    <points>400</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 22:42:39</time>
+    <points>3300</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 22:57:34</time>
+    <points>13800</points>
+  </score>
+  <score name="">
+    <time>20/03/19 23:33:07</time>
+    <points>5100</points>
+  </score>
+  <score name="test">
+    <time>20/03/19 23:35:39</time>
+    <points>2100</points>
+  </score>
 </scores>

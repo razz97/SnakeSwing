@@ -8,6 +8,8 @@ import controller.AppController;
 import model.Score;
 import model.User;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,14 @@ public class JPanelFilterScore extends JPanel {
 		btnFilter.addActionListener(e -> updateModel((int) spinner.getValue()));
 		btnFilter.setBounds(306, 32, 89, 23);
 		add(btnFilter);
+		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased( final KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                	btnFilter.doClick();
+                }
+            }
+        } );
 	}
 	
 	private void updateModel(int min) {

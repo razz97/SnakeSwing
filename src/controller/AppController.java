@@ -63,14 +63,18 @@ public class AppController {
 	}
 	
 	public void register(String username, String password, String passwordRepeat) {
+		if (username.length() == 0)
+			logger.log("Invalid username.");
 		if (dao.isUsername(username))
 			logger.log("This username is already in use.");
+		else if (password.length() == 0)
+			logger.log("Invalid password");
 		else if (!password.equals(passwordRepeat))
 			logger.log("Passwords aren't equal.");
 		else {
 			user = new User(username, password);
 			dao.register(user);
-			logger.log("Registered successfully");
+			logger.log("Registered successfully.");
 			showHome();
 		}
 	}
@@ -82,7 +86,7 @@ public class AppController {
 			logger.log("Logged off.");
 			setPanel(new JPanelLogin());
 		} else
-			logger.log("You must log in first");
+			logger.log("You must log in first.");
 	}
 	
 	public void showScores() {

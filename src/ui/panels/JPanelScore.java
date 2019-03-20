@@ -38,6 +38,7 @@ public class JPanelScore extends JPanel {
 		btnNewButton.setBounds(321, 21, 89, 23);
 		btnNewButton.addActionListener(e -> splitPane.filter(textField.getText()));
 		panel.add(btnNewButton);
+		textField.addActionListener(e -> btnNewButton.doClick());
 	}
 	
 	private void setupTabbedPane() {

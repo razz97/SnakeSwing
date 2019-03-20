@@ -50,6 +50,7 @@ public class JPanelLogin extends JPanel {
 		btnDone.addActionListener(e -> AppController.getInstance().auth(userField.getText(), String.valueOf(pswdField.getPassword())));
 		add(btnDone);
 		pswdField.addActionListener(e -> btnDone.doClick());
+		userField.addActionListener(e -> btnDone.doClick());
 	}
 	
 }
