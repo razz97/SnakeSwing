@@ -52,7 +52,7 @@ public class Snake extends JPanel implements ActionListener {
     }
     
     private void initBoard() {
-
+    	setLayout(null);
         addKeyListener(new TAdapter());
         setBackground(Color.black);
         setFocusable(true);

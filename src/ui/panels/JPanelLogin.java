@@ -32,10 +32,11 @@ public class JPanelLogin extends JPanel {
 		
 		JPasswordField pswdField = new JPasswordField();
 		pswdField.setBounds(199, 220, 200, 20);
+	
 		add(pswdField);
 		
 		JButton btnDone = new JButton("Login");
-		btnDone.setBounds(241, 306, 100, 23);
+		btnDone.setBounds(249, 295, 100, 23);
 		btnDone.addActionListener(e -> {
 			AppController.getInstance().auth(
 					userField.getText(), 
@@ -43,5 +44,14 @@ public class JPanelLogin extends JPanel {
 			);
 		});
 		add(btnDone);
+		
+		pswdField.addActionListener(e -> btnDone.doClick());
+		
+		JButton btnRegister = new JButton("Register");
+		btnRegister.setBounds(436, 429, 100, 23);
+		btnRegister.addActionListener(e -> {
+			AppController.getInstance().showRegister();
+		});
+		add(btnRegister);
 	}
 }

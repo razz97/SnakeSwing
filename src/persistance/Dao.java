@@ -25,19 +25,22 @@ public class Dao {
 
 	private static Dao instance;
 	
+	private AppController controller;
 	private File usersFile = new File("resources" + File.separator + "passwords.xml");
 	private File scoresFile = new File("resources" + File.separator + "scores.xml");
 	private SAXBuilder builder = new SAXBuilder();
 	
 	private List<Score> addedScores = new ArrayList<>();
 		
-	public static Dao getInstance() {
+	public static Dao getInstance(AppController controller) {
 		if (instance == null)
-			instance = new Dao();
+			instance = new Dao(controller);
 		return instance;
 	}
 	
-	private Dao() {}
+	private Dao(AppController controller) {
+		this.controller = controller;
+	}
 	
 	public boolean auth(User user) {
 		return execute(() -> {
@@ -74,7 +77,7 @@ public class Dao {
 	
 	private Score parseScore(Element elem) {
 		String name = elem.getAttributeValue("name");
-		Date date = execute(() -> AppController.getInstance().formatter.parse(elem.getChildText("time")));
+		Date date = execute(() -> controller.formatter.parse(elem.getChildText("time")));
 		int points = Integer.parseInt(elem.getChildText("points"));
 		return new Score(name,date,points);
 	}
@@ -87,7 +90,7 @@ public class Dao {
 		Element root = new Element("score");
 		root.setAttribute("name", score.getUser());
 		Element time = new Element("time");
-		time.setText(AppController.getInstance().formatter.format(score.getDate()));
+		time.setText(controller.formatter.format(score.getDate()));
 		Element points = new Element("points");
 		points.setText(String.valueOf(score.getPoints()));
 		root.addContent(time);
@@ -97,7 +100,7 @@ public class Dao {
 	
 	private <T> T execute(SupplierExceptionThrower<T> exec) {
 		try { return exec.get(); } 
-		catch (Exception e) { e.printStackTrace(); AppController.getInstance().fatalError(); }
+		catch (Exception e) { e.printStackTrace(); controller.fatalError(); }
 		return null;
 	}
 
@@ -106,12 +109,9 @@ public class Dao {
 			List<Element> newElements = addedScores.stream().map(s -> serializeScore(s)).collect(Collectors.toList());
 			Document doc = builder.build(scoresFile);
 			doc.getRootElement().addContent(newElements);
-	        FileWriter writer = new FileWriter(scoresFile);
-	        XMLOutputter outputter = new XMLOutputter();
-	        outputter.setFormat(Format.getPrettyFormat());
-	        outputter.output(doc, writer);
-	        writer.close(); 
+			writeDocument(doc, scoresFile);
 	        addedScores.clear();
+	        controller.changesCommitted();
 			return null;
 		});
 
@@ -131,5 +131,35 @@ public class Dao {
 
 	public void addScore(Score score) {
 		addedScores.add(score);
+	}
+
+	public boolean isUsername(String username) {
+		return execute(() -> {
+			return getElementList(usersFile).stream().filter(e -> e.getAttributeValue("name").equals(username)).findAny().isPresent();
+		});
+	}
+
+	public void register(User user) {
+		execute(() -> {
+			Document doc = builder.build(usersFile);
+			doc.getRootElement().addContent(serializeUser(user));
+			writeDocument(doc, usersFile);
+			return null;
+		});
+	}
+	
+	private void writeDocument(Document doc, File file) throws Exception {
+        FileWriter writer = new FileWriter(file);
+        XMLOutputter outputter = new XMLOutputter();
+        outputter.setFormat(Format.getPrettyFormat());
+        outputter.output(doc, writer);
+        writer.close();
+	}
+
+	private Element serializeUser(User user) {
+		Element root = new Element("score");
+		root.setAttribute("name", user.getName());
+		root.setAttribute("psw", user.getPassword());
+		return root;
 	}
 }

@@ -44,6 +44,10 @@ public class JPanelConsole extends JPanel {
 		home.addActionListener(e -> AppController.getInstance().showHome());
 		menu.add(home);
 		
+		JMenuItem save = new JMenuItem("Save games");
+		save.addActionListener(e -> AppController.getInstance().save());
+		menu.add(save);
+		
 		JMenuItem logout = new JMenuItem("Logout");
 		logout.addActionListener(e -> AppController.getInstance().logout());
 		menu.add(logout);
@@ -51,6 +55,8 @@ public class JPanelConsole extends JPanel {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(e -> AppController.getInstance().saveAndExit());
 		menu.add(exit);
+		
+
 		
 		add(menuBar);
 	}

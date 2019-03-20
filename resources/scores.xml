@@ -24,4 +24,32 @@
     <time>19/03/19 20:05:10</time>
     <points>1000</points>
   </score>
+  <score name="Maria">
+    <time>20/03/19 12:36:35</time>
+    <points>11100</points>
+  </score>
+  <score name="Maria">
+    <time>20/03/19 12:40:23</time>
+    <points>300</points>
+  </score>
+  <score name="Maria">
+    <time>20/03/19 13:14:45</time>
+    <points>300</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 13:18:40</time>
+    <points>600</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 13:20:05</time>
+    <points>1100</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 13:27:57</time>
+    <points>300</points>
+  </score>
+  <score name="alex">
+    <time>20/03/19 13:30:31</time>
+    <points>300</points>
+  </score>
 </scores>

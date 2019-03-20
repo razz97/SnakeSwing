@@ -16,6 +16,7 @@ import ui.JFrameCustom;
 import ui.JSplitPaneCustom;
 import ui.panels.JPanelLogin;
 import ui.panels.JPanelMain;
+import ui.panels.JPanelRegister;
 import ui.panels.JPanelScore;
 import ui.panels.Snake;
 
@@ -46,7 +47,7 @@ public class AppController {
 	
 	private AppController() {
 		formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-		dao = Dao.getInstance();
+		dao = Dao.getInstance(this);
 		logger = LogController.getInstance();
 	}
 	
@@ -58,6 +59,19 @@ public class AppController {
 			setPanel(new JPanelMain());
 		} else {
 			logger.log("Invalid credentials.");
+		}
+	}
+	
+	public void register(String username, String password, String passwordRepeat) {
+		if (dao.isUsername(username)) {
+			logger.log("This username is already in use.");
+		} else if (!password.equals(passwordRepeat)) {
+			logger.log("Passwords aren't equal.");
+		} else {
+			user = new User(username, password);
+			dao.register(user);
+			logger.log("Registered successfully");
+			showHome();
 		}
 	}
 	
@@ -96,8 +110,12 @@ public class AppController {
 		splitPane.setDividerLocation(200);
 	}
 
-	public void saveAndExit() {
+	public void save() {
 		dao.commit();
+	}
+	
+	public void saveAndExit() {
+		save();
 		System.exit(0);
 	}
 
@@ -123,7 +141,7 @@ public class AppController {
 			logger.log("Logged off.");
 			setPanel(new JPanelLogin());
 		} else {
-			logger.log("");
+			logger.log("You must log in first");
 		}
 
 	}
@@ -134,10 +152,13 @@ public class AppController {
 			Snake snake = new Snake();
 			setPanel(snake);
 			snake.requestFocusInWindow();
-		} else {
+		} else 
 			logger.log("You must log in first.");
-		}
-
+	}
+	
+	public void showRegister() {
+		setPanel(new JPanelRegister());
+		logger.log("Register panel shown.");
 	}
 
 	public Score getBestScore() {
@@ -146,7 +167,13 @@ public class AppController {
 
 	public void addScore(int points) {
 		logger.log("Added score.");
+		frame.setTitle("* SnakeTucom");
 		dao.addScore(new Score(user.getName(),new Date(),points));
+	}
+	
+	public void changesCommitted() {
+		frame.setTitle("SnakeTucom");
+		logger.log("Changes saved successfully.");
 	}
 	
 }
