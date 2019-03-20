@@ -10,16 +10,17 @@ public class LogController {
 	}
 	
 	private static LogController instance;
+	private List<LogListener> listeners;
 	
-	private List<LogListener> listeners = new ArrayList<>();
-		
 	public static LogController getInstance() {
 		if (instance == null)
 			instance = new LogController();
 		return instance;
 	}
 	
-	private LogController() {}
+	private LogController() {
+		listeners = new ArrayList<>();
+	}
 	
 	public void addListener(LogListener listener) {
 		listeners.add(listener);
@@ -32,7 +33,4 @@ public class LogController {
 	public void log(String message) {
 		listeners.forEach(l -> l.onNewLogMessage(message));
 	}
-	
-	
-
 }

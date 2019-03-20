@@ -24,15 +24,21 @@ public class JSplitPaneScore extends JSplitPane {
 	
 	public JSplitPaneScore() {		
 		setDividerLocation(200);
-		JPanel panel = new JPanel();
-		setLeftComponent(panel);
-		panel.setLayout(null);
-		
+		setupInfoPanel();
+		setupListPanel();
+	}
+	
+	private void setupInfoPanel() {
 		users = AppController.getInstance().getUsers();	
 		model = new DefaultListModel<User>();
 		panelUser = new JPanelUserInfo();
 		setRightComponent(panelUser);
-		
+	}
+	
+	private void setupListPanel() {
+		JPanel panel = new JPanel();
+		setLeftComponent(panel);
+		panel.setLayout(null);
 		list = new JList<>(model);	
 		list.addListSelectionListener(e -> {
 			User user = list.getSelectedValue();
@@ -43,7 +49,6 @@ public class JSplitPaneScore extends JSplitPane {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(0, 0, 199, 298);
 		panel.add(list);
-		
 		updateModel(users);
 	}
 	
@@ -61,7 +66,4 @@ public class JSplitPaneScore extends JSplitPane {
 			list.setSelectedIndex(0);
 		}
 	}
-
-	
-
 }

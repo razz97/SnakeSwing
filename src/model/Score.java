@@ -61,6 +61,9 @@ public class Score implements Comparable<Score>{
 	public int compareTo(Score other) {
 		return points - other.points;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return user + ": " + points;
+	}
 }

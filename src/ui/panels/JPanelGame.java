@@ -18,7 +18,7 @@ import javax.swing.Timer;
 
 import controller.AppController;
 
-public class Snake extends JPanel implements ActionListener {
+public class JPanelGame extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -47,7 +47,7 @@ public class Snake extends JPanel implements ActionListener {
 
     private boolean shownRetryBtn = false;
     
-    public Snake() {
+    public JPanelGame() {
         initBoard();
     }
     

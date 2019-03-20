@@ -18,26 +18,17 @@ import ui.panels.JPanelLogin;
 import ui.panels.JPanelMain;
 import ui.panels.JPanelRegister;
 import ui.panels.JPanelScore;
-import ui.panels.Snake;
+import ui.panels.JPanelGame;
 
 public class AppController {
 
 	private static AppController instance;
-	
 	public final DateFormat formatter;
-	
 	private JFrameCustom frame;
 	private JSplitPaneCustom splitPane;
-	
 	private final Dao dao;
 	private final LogController logger;
-	
 	private User user;
-	
-	public void bootstrap() {
-		splitPane = new JSplitPaneCustom();
-		frame = new JFrameCustom(splitPane);
-	}
 	
 	public static AppController getInstance() {
 		if (instance == null)
@@ -51,23 +42,32 @@ public class AppController {
 		logger = LogController.getInstance();
 	}
 	
+	public void bootstrap() {
+		splitPane = new JSplitPaneCustom();
+		frame = new JFrameCustom(splitPane);
+	}
+	
+	private void setPanel(JPanel panel) {
+		splitPane.setRightComponent(panel);
+		splitPane.setDividerLocation(200);
+	}
+	
 	public void auth(String username, String password) {
 		User user = new User(username, password);
 		if (dao.auth(user)) {
 			logger.log("Logged in successfully.");
 			this.user = user;
 			setPanel(new JPanelMain());
-		} else {
+		} else 
 			logger.log("Invalid credentials.");
-		}
 	}
 	
 	public void register(String username, String password, String passwordRepeat) {
-		if (dao.isUsername(username)) {
+		if (dao.isUsername(username))
 			logger.log("This username is already in use.");
-		} else if (!password.equals(passwordRepeat)) {
+		else if (!password.equals(passwordRepeat))
 			logger.log("Passwords aren't equal.");
-		} else {
+		else {
 			user = new User(username, password);
 			dao.register(user);
 			logger.log("Registered successfully");
@@ -75,22 +75,54 @@ public class AppController {
 		}
 	}
 	
+	public void logout() {
+		if (user != null) {
+			user = null;
+			dao.commit();
+			logger.log("Logged off.");
+			setPanel(new JPanelLogin());
+		} else
+			logger.log("You must log in first");
+	}
+	
+	public void showScores() {
+		if (user != null) {
+			logger.log("Scores panel shown.");
+			setPanel(new JPanelScore());
+		} else
+			logger.log("You must log in first.");
+		
+	}
+
+	public void showHome() {
+		if (user != null) {
+			logger.log("Home panel shown.");
+			setPanel(new JPanelMain());
+		} else
+			logger.log("You must log in first.");
+	}
+		
+	public void showGame() {
+		if (user != null) {
+			logger.log("Game panel shown.");
+			JPanelGame snake = new JPanelGame();
+			setPanel(snake);
+			snake.requestFocusInWindow();
+		} else 
+			logger.log("You must log in first.");
+	}
+	
+	public void showRegister() {
+		setPanel(new JPanelRegister());
+		logger.log("Register panel shown.");
+	}
+	
 	public List<User> getUsers() {
 		return dao.getUsers();
 	}
 	
-	public void fatalError() {
-		JOptionPane.showMessageDialog(
-				frame, 
-				"XML is corrupted.", 
-				"Fatal error.", 
-				JOptionPane.ERROR_MESSAGE
-		);
-		System.exit(0);
-	}
-	
 	public List<Score> getUserScores() {
-		return dao.getScores(user);
+		return getScores(user);
 	}
 	
 	public List<Score> getScores(User user) {
@@ -105,9 +137,14 @@ public class AppController {
 		return  getScores(user).stream().max(Comparator.naturalOrder()).orElse(null);
 	}
 	
-	private void setPanel(JPanel panel) {
-		splitPane.setRightComponent(panel);
-		splitPane.setDividerLocation(200);
+	public Score getBestScore() {
+		return dao.getBestScore();
+	}
+
+	public void addScore(int points) {
+		logger.log("Added score.");
+		frame.setTitle("* SnakeTucom");
+		dao.addScore(new Score(user.getName(),new Date(),points));
 	}
 
 	public void save() {
@@ -119,61 +156,22 @@ public class AppController {
 		System.exit(0);
 	}
 
-	public void showScores() {
-		logger.log("Scores panel shown.");
-		setPanel(new JPanelScore());
-	}
-
-	public void showHome() {
-		if (user != null) {
-			logger.log("Home panel shown.");
-			setPanel(new JPanelMain());
-		} else {
-			logger.log("You must log in first.");
-		}
-
-	}
-	
-	public void logout() {
-		if (user != null) {
-			user = null;
-			dao.commit();
-			logger.log("Logged off.");
-			setPanel(new JPanelLogin());
-		} else {
-			logger.log("You must log in first");
-		}
-
-	}
-	
-	public void showGame() {
-		if (user != null) {
-			logger.log("Game panel shown.");
-			Snake snake = new Snake();
-			setPanel(snake);
-			snake.requestFocusInWindow();
-		} else 
-			logger.log("You must log in first.");
-	}
-	
-	public void showRegister() {
-		setPanel(new JPanelRegister());
-		logger.log("Register panel shown.");
-	}
-
-	public Score getBestScore() {
-		return dao.getBestScore();
-	}
-
-	public void addScore(int points) {
-		logger.log("Added score.");
-		frame.setTitle("* SnakeTucom");
-		dao.addScore(new Score(user.getName(),new Date(),points));
-	}
-	
 	public void changesCommitted() {
 		frame.setTitle("SnakeTucom");
 		logger.log("Changes saved successfully.");
 	}
 	
+	public boolean areChangesCommitted() {
+		return dao.areChangesCommitted();
+	}
+	
+	public void fatalError() {
+		JOptionPane.showMessageDialog(
+				frame, 
+				"XML is corrupted.", 
+				"Fatal error.", 
+				JOptionPane.ERROR_MESSAGE
+		);
+		System.exit(0);
+	}
 }

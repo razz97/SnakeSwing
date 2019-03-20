@@ -17,31 +17,35 @@ import javax.swing.JList;
 
 public class JPanelFilterScore extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private DefaultListModel<String> model;
 	private JList<String> list;
 	private List<User> users;
 	
 	public JPanelFilterScore() {
 		setLayout(null);
-		
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 500));
-		spinner.setBounds(37, 33, 228, 20);
-		add(spinner);
-		
-		JButton btnFilter = new JButton("Filter");
-		btnFilter.addActionListener(e -> updateModel((int) spinner.getValue()));
-		btnFilter.setBounds(306, 32, 89, 23);
-		add(btnFilter);
-		
+		setupFields();
+		setupList();
+	}
+	
+	private void setupList() {
 		users = AppController.getInstance().getUsers();	
 		model = new DefaultListModel<>();
 		list = new JList<>(model);
 		list.setBounds(37, 78, 358, 198);
 		add(list);
-		
 		updateModel(0);
-		
-		
+	}
+	
+	private void setupFields() {
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 500));
+		spinner.setBounds(37, 33, 228, 20);
+		add(spinner);
+		JButton btnFilter = new JButton("Filter");
+		btnFilter.addActionListener(e -> updateModel((int) spinner.getValue()));
+		btnFilter.setBounds(306, 32, 89, 23);
+		add(btnFilter);
 	}
 	
 	private void updateModel(int min) {
@@ -57,8 +61,4 @@ public class JPanelFilterScore extends JPanel {
 			list.setSelectedIndex(0);
 		}
 	}
-	
-	
-
-	private static final long serialVersionUID = 1L;
 }

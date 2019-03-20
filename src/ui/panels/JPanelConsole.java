@@ -16,48 +16,40 @@ public class JPanelConsole extends JPanel {
 		
 	public JPanelConsole() {
 		setLayout(null);
-		
+		addTextarea();
+		setUpMenu();
+	}
+	
+	private void addTextarea() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 20, 200, 450);
 		scrollPane.setFocusable(false);
 		add(scrollPane);
-		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setBounds(0, 0, 200, 450);
 		textArea.setFocusable(false);
 		scrollPane.setViewportView(textArea);
-		
 		LogController.getInstance().addListener(msg -> textArea.append(msg + "\n"));
-		
-		setUpMenu();
 	}
 	
 	private void setUpMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 200, 20);
-		
 		JMenu menu = new JMenu("Actions");
 		menuBar.add(menu);
-		
 		JMenuItem home = new JMenuItem("Home");
 		home.addActionListener(e -> AppController.getInstance().showHome());
 		menu.add(home);
-		
 		JMenuItem save = new JMenuItem("Save games");
 		save.addActionListener(e -> AppController.getInstance().save());
 		menu.add(save);
-		
 		JMenuItem logout = new JMenuItem("Logout");
 		logout.addActionListener(e -> AppController.getInstance().logout());
 		menu.add(logout);
-		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(e -> AppController.getInstance().saveAndExit());
 		menu.add(exit);
-		
-
-		
 		add(menuBar);
 	}
 }

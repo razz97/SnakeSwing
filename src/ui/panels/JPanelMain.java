@@ -18,32 +18,35 @@ public class JPanelMain extends JPanel {
 	public JPanelMain() {
 		setLayout(null);
 		setSize(600, 500);
-		
+		setupTable();
+		setupButtons();
+	}
+	
+	private void setupButtons() {
 		JButton btnNewGame = new JButton("Play");
 		btnNewGame.setBounds(150, 350, 89, 23);
 		btnNewGame.addActionListener(e -> AppController.getInstance().showGame());
 		add(btnNewGame);
-		
 		JButton btnScores = new JButton("Scores");
 		btnScores.setBounds(250, 350, 89, 23);
 		btnScores.addActionListener(e -> AppController.getInstance().showScores());
 		add(btnScores);
-		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setBounds(350, 350, 89, 23);
 		btnExit.addActionListener(e -> AppController.getInstance().saveAndExit());
 		add(btnExit);
-		
+	}
+	
+	private void setupTable() {
 		String[] columnNames = {"Date","Score"};
 		JTable table = new JTable(getTableData(), columnNames);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setEnabled(false);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(85,70,400,250);
 		scrollPane.setViewportView(table);
-		
 		add(scrollPane);
+		
 	}
 	
 	private String[][] getTableData() {
