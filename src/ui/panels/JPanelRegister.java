@@ -18,45 +18,49 @@ public class JPanelRegister extends JPanel {
 		setLayout(null);
 		setupLabels();
 		setupFields();
+		setupBackButton();
 	}
 	
+	private void setupBackButton() {
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(26, 27, 89, 23);
+		btnBack.addActionListener(e -> AppController.getInstance().showLogin());
+		add(btnBack);
+	}
+
 	private void setupFields() {
 		JTextField username = new JTextField();
-		username.setBounds(236, 148, 240, 20);
+		username.setBounds(267, 104, 240, 20);
 		add(username);
 		username.setColumns(10);
 		JPasswordField password = new JPasswordField();
-		password.setBounds(236, 235, 240, 20);
+		password.setBounds(267, 191, 240, 20);
 		add(password);
 		JPasswordField repeat = new JPasswordField();
-		repeat.setBounds(236, 322, 240, 20);
+		repeat.setBounds(267, 278, 240, 20);
 		add(repeat);
 		JButton btnSignIn = new JButton("Sign in");
-		btnSignIn.setBounds(224, 409, 89, 23);
+		btnSignIn.setBounds(221, 350, 89, 23);
 		btnSignIn.addActionListener(e -> {
 			AppController.getInstance().register(username.getText(), 
 					String.valueOf(password.getPassword()), 
 					String.valueOf(repeat.getPassword()));
 		});
-		add(btnSignIn);
+		add(btnSignIn);		
 		repeat.addActionListener(e -> btnSignIn.doClick());
 		password.addActionListener(e -> btnSignIn.doClick());
 		username.addActionListener(e -> btnSignIn.doClick());
 	}
 	
 	private void setupLabels() {
-		JLabel lblRegister = new JLabel("Register");
-		lblRegister.setBounds(10, 67, 552, 14);
-		lblRegister.setHorizontalAlignment(JLabel.CENTER);
-		add(lblRegister);
 		JLabel lblUsername = new JLabel("Username: ");
-		lblUsername.setBounds(45, 151, 181, 14);
+		lblUsername.setBounds(76, 107, 181, 14);
 		add(lblUsername);
 		JLabel lblPassword = new JLabel("Password: ");
-		lblPassword.setBounds(45, 238, 181, 14);
+		lblPassword.setBounds(76, 194, 181, 14);
 		add(lblPassword);
 		JLabel lblRepeatPassword = new JLabel("Repeat password: ");
-		lblRepeatPassword.setBounds(45, 325, 181, 14);
+		lblRepeatPassword.setBounds(76, 281, 181, 14);
 		add(lblRepeatPassword);
 	}
 }

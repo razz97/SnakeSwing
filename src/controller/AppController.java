@@ -121,6 +121,11 @@ public class AppController {
 		logger.log("Register panel shown.");
 	}
 	
+	public void showLogin() {
+		setPanel(new JPanelLogin());
+		logger.log("Login panel shown.");
+	}
+	
 	public List<User> getUsers() {
 		return dao.getUsers();
 	}

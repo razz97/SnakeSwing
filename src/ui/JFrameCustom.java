@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -35,7 +34,7 @@ public class JFrameCustom extends JFrame {
 	}
 	
 	private void setImageAndTitle() {
-		setIconImage(new ImageIcon("resources" + File.separator + "snake.png").getImage());
+		setIconImage(new ImageIcon(getClass().getClassLoader().getResource("snake.png")).getImage());
 		setTitle("SnakeTucom");
 	}
 	

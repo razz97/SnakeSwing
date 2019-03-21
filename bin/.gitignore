@@ -1,6 +1,7 @@
-/ui/
-/controller/
-/tmp/
-/snaketucom/
+/apple.png
+/dot.png
+/head.png
+/snake.png
 /persistance/
-/model/
+/controller/
+/ui/
