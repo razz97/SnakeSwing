@@ -137,7 +137,8 @@ public class Dao {
 	public List<Score> getScores(User user) {
 		return execute(() -> {
 			List<Score> scores = getElementList(scoresFile).stream()
-					.filter(e -> user.getName().equals(e.getAttributeValue("name"))).map(e -> parseScore(e))
+					.filter(e -> user.getName().equals(e.getAttributeValue("name")))
+					.map(e -> parseScore(e))
 					.collect(Collectors.toList());
 			scores.addAll(addedScores);
 			return scores;

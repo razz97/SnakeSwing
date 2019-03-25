@@ -1,6 +1,7 @@
 package ui.panels.scores;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -35,8 +36,11 @@ public class JPanelFilterScore extends JPanel {
 		users = AppController.getInstance().getUsers();	
 		model = new DefaultListModel<>();
 		list = new JList<>(model);
-		list.setBounds(37, 78, 358, 198);
-		add(list);
+		list.setBounds(37, 70, 340, 190);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(37,70,340,190);
+		scrollPane.setViewportView(list);
+		add(scrollPane);
 		updateModel(0);
 	}
 	

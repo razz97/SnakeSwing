@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JList;
 
 public class JSplitPaneScore extends JSplitPane {
@@ -37,8 +38,11 @@ public class JSplitPaneScore extends JSplitPane {
 	
 	private void setupListPanel() {
 		JPanel panel = new JPanel();
+		panel.setBounds(0,0,200,215);
 		setLeftComponent(panel);
 		panel.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0,0,200,215);
 		list = new JList<>(model);	
 		list.addListSelectionListener(e -> {
 			User user = list.getSelectedValue();
@@ -47,8 +51,9 @@ public class JSplitPaneScore extends JSplitPane {
 		});
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBounds(0, 0, 199, 298);
-		panel.add(list);
+		list.setBounds(0, 0, 199, 215);
+		scrollPane.setViewportView(list);
+		panel.add(scrollPane);
 		updateModel(users);
 	}
 	
